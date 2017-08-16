@@ -14,6 +14,7 @@
 @interface SVGSVGElement()
 #pragma mark - elements REQUIRED to implement the spec but not included in SVG Spec due to bugs in the spec writing!
 @property(nonatomic,readwrite) SVGRect requestedViewport;
+@property(nonatomic, strong, readwrite) NSMutableDictionary *cachedReplaceColors;
 @end
 
 @implementation SVGSVGElement
@@ -275,5 +276,28 @@
 	return  self.viewBox.height == 0 ? 0 : self.viewBox.width / self.viewBox.height;
 }
 
+#pragma mark - 
+
+-(CGColorRef)replacedColorForColor:(CGColorRef)color
+{
+    if (self.cachedReplaceColors == nil) {
+        self.cachedReplaceColors = [[NSMutableDictionary alloc] init];
+    }
+    
+    UIColor *uiColor = [UIColor colorWithCGColor:color];
+    UIColor *replaceColor = self.cachedReplaceColors[uiColor];
+    
+    if (replaceColor == nil) {
+        if (self.replaceColors.count > self.cachedReplaceColors.count) {
+            replaceColor = self.replaceColors[self.cachedReplaceColors.count];
+            
+            self.cachedReplaceColors[uiColor] = replaceColor;
+        } else {
+            return uiColor.CGColor;
+        }
+    }
+    
+    return replaceColor.CGColor;
+}
 
 @end

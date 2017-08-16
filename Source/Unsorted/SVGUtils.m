@@ -390,6 +390,10 @@ SVGColor SVGColorFromString (const char *string) {
 	return color;
 }
 
+UIColor* UIColorFromSVGColor(SVGColor color) {
+    return [UIColor colorWithRed:RGB_N(color.r) green:RGB_N(color.g) blue:RGB_N(color.b) alpha:RGB_N(color.a)];
+}
+
 CGFloat SVGPercentageFromString (const char *string) {
 	size_t len = strlen(string);
 	

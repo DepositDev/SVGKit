@@ -647,4 +647,13 @@
     }
 }
 
+-(CGColorRef) replacedColorForColor:(CGColorRef)color
+{
+    if ([self.parentNode isKindOfClass:[SVGElement class]]) {
+        return [((SVGElement*)self.parentNode) replacedColorForColor:color];
+    }
+    
+    return color;
+}
+
 @end

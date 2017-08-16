@@ -24,6 +24,7 @@ typedef struct {
 
 SVGColor SVGColorMake (uint8_t r, uint8_t g, uint8_t b, uint8_t a);
 SVGColor SVGColorFromString (const char *string);
+UIColor* UIColorFromSVGColor(SVGColor color);
 
 CGFloat SVGPercentageFromString (const char *string);
 

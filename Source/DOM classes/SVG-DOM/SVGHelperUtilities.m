@@ -507,8 +507,8 @@
 		gradientLayer.frame = fillLayer.frame;
 		fillLayer = (CAShapeLayer* )gradientLayer;
 	}
-	else if( actualFill.length > 0 || actualFillOpacity.length > 0 )
-	{
+	else
+    {
 		fillLayer.fillColor = [self parseFillForElement:svgElement fromFill:actualFill andOpacity:actualFillOpacity];
 	}
 	CGPathRelease(pathToPlaceInLayer);
@@ -586,7 +586,7 @@
 #endif
 	}
 
-	return fillColor;
+    return [svgElement replacedColorForColor:fillColor];
 }
 
 +(void) parsePreserveAspectRatioFor:(Element<SVGFitToViewBox>*) element
