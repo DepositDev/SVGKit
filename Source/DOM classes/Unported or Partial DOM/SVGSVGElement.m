@@ -290,11 +290,11 @@
     if (replaceColor == nil) {
         if (self.replaceColors.count > self.cachedReplaceColors.count) {
             replaceColor = self.replaceColors[self.cachedReplaceColors.count];
-            
-            self.cachedReplaceColors[uiColor] = replaceColor;
         } else {
-            return uiColor.CGColor;
+            [self.replaceColors addObject:uiColor];
+            replaceColor = uiColor;
         }
+        self.cachedReplaceColors[uiColor] = replaceColor;
     }
     
     return replaceColor.CGColor;
