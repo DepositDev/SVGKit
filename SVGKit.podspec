@@ -17,15 +17,15 @@ Pod::Spec.new do |s|
   s.source   = { :git => 'https://github.com/SVGKit/SVGKit.git', :tag => s.version.to_s }
 
   s.ios.source_files = 'Source/*{.h,m}', 'Source/DOM classes/**/*.{h,m}', 'Source/Exporters/*.{h,m}', 'Source/Parsers/**/*.{h,m}', 'Source/QuartzCore additions/**/*.{h,m}', 'Source/Sources/**/*.{h,m}', 'Source/UIKit additions/**/*.{h,m}', 'Source/Unsorted/**/*.{h,m}'
-  s.tvos.deployment_target = '9.0'
   s.libraries = 'xml2'
   s.framework = 'QuartzCore', 'CoreText'
-  s.dependency 'CocoaLumberjack', '~> 3.x'
+  s.dependency 'CocoaLumberjack', '~> 3.1.0'
   s.prefix_header_file = 'SVGKitLibrary/SVGKit-iOS/SVGKit-iOS-Prefix.pch'
   s.requires_arc = true
   s.xcconfig = {
     'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++11',
     'CLANG_CXX_LIBRARY' => 'libc++',
-    'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2'
+    'HEADER_SEARCH_PATHS' => '$(SDKROOT)/usr/include/libxml2',
+    'CLANG_WARN_DOCUMENTATION_COMMENTS' => 'NO'
   }
 end
