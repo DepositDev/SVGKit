@@ -69,7 +69,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
 
 @property (nonatomic, strong, readonly) SVGDocument* DOMDocument;
 @property (nonatomic, strong, readonly) SVGSVGElement* DOMTree; // needs renaming + (possibly) replacing by DOMDocument
-@property (nonatomic, strong, readonly) CALayer* CALayerTree;
+@property (nonatomic, strong) CALayer* CALayerTree;
 #if ENABLE_GLOBAL_IMAGE_CACHE_FOR_SVGKIMAGE_IMAGE_NAMED
 @property (nonatomic, strong, readonly) NSString* nameUsedToInstantiate;
 #endif

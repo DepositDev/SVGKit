@@ -278,6 +278,12 @@
 
 #pragma mark - 
 
+-(void)setReplaceColors:(NSMutableArray<UIColor *> *)replaceColors
+{
+    _replaceColors = replaceColors;
+    self.cachedReplaceColors = nil;
+}
+
 -(CGColorRef)replacedColorForColor:(CGColorRef)color
 {
     if (self.cachedReplaceColors == nil) {
