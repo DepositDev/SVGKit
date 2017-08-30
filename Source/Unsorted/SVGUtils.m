@@ -267,6 +267,77 @@ typedef enum {
 	PhaseRGB
 } Phase;
 
+void GetSVGColorFromHEXString(const char *hexString, SVGColor *color) {
+    
+    switch (strlen(hexString)) {
+        case 8:
+        {
+            char a[3];
+            a[2] = '\0';
+            
+            strncpy(a, hexString + 6, 2);
+            color->a = strtol(a, NULL, 16);
+        }
+        case 6:
+        {
+            char r[3], g[3], b[3];
+            r[2] = g[2] = b[2] = '\0';
+            
+            strncpy(r, hexString, 2);
+            strncpy(g, hexString + 2, 2);
+            strncpy(b, hexString + 4, 2);
+            
+            color->r = strtol(r, NULL, 16);
+            color->g = strtol(g, NULL, 16);
+            color->b = strtol(b, NULL, 16);
+        }
+            break;
+        case 4:
+        {
+            char a[2];
+            a[1] = '\0';
+            
+            strncpy(a, hexString + 3, 1);
+            color->a = strtol(a, NULL, 16);
+        }
+        case 3:
+        {
+            char r[2], g[2], b[2];
+            r[1] = g[1] = b[1] = '\0';
+            
+            strncpy(r, hexString, 1);
+            strncpy(g, hexString + 1, 1);
+            strncpy(b, hexString + 2, 1);
+            
+            color->r = strtol(r, NULL, 16);
+            color->g = strtol(g, NULL, 16);
+            color->b = strtol(b, NULL, 16);
+            
+            /** because 3-digit hex notation "F" means "FF" ... "1" means "11" ... etc */
+            color->r += color->r * 16;
+            color->g += color->g * 16;
+            color->b += color->b * 16;
+        }
+            break;
+        default:
+            color->r = 0;
+            color->g = 0;
+            color->b = 0;
+            color->a = 255;
+            break;
+    }
+}
+
+SVGColor SVGColorFromHEXString(const char *hexString) {
+    SVGColor color;
+    bzero(&color, sizeof(color));
+    
+    color.a = 0xFF;
+    
+    GetSVGColorFromHEXString(hexString, &color);
+    return color;
+}
+
 SVGColor SVGColorFromString (const char *string) {
 	NSCAssert(string != NULL, @"NullPointerException: you gave us a null pointer, very bad thing to do...");
 	SVGColor color;
@@ -327,65 +398,11 @@ SVGColor SVGColorFromString (const char *string) {
 	}
 	else if (!strncmp(string, "#", 1)) {
 		const char *hexString = string + 1;
-		
-        switch (strlen(hexString)) {
-            case 8:
-            {
-                char a[3];
-                a[2] = '\0';
-                
-                strncpy(a, hexString + 6, 2);
-                color.a = strtol(a, NULL, 16);
-            }
-            case 6:
-            {
-                char r[3], g[3], b[3];
-                r[2] = g[2] = b[2] = '\0';
-                
-                strncpy(r, hexString, 2);
-                strncpy(g, hexString + 2, 2);
-                strncpy(b, hexString + 4, 2);
-                
-                color.r = strtol(r, NULL, 16);
-                color.g = strtol(g, NULL, 16);
-                color.b = strtol(b, NULL, 16);
-            }
-                break;
-            case 4:
-            {
-                char a[2];
-                a[1] = '\0';
-                
-                strncpy(a, hexString + 3, 1);
-                color.a = strtol(a, NULL, 16);
-            }
-            case 3:
-            {
-                char r[2], g[2], b[2];
-                r[1] = g[1] = b[1] = '\0';
-                
-                strncpy(r, hexString, 1);
-                strncpy(g, hexString + 1, 1);
-                strncpy(b, hexString + 2, 1);
-                
-                color.r = strtol(r, NULL, 16);
-                color.g = strtol(g, NULL, 16);
-                color.b = strtol(b, NULL, 16);
-                
-                /** because 3-digit hex notation "F" means "FF" ... "1" means "11" ... etc */
-                color.r += color.r * 16;
-                color.g += color.g * 16;
-                color.b += color.b * 16;
-            }
-                break;
-            default:
-                color = SVGColorMake(0, 0, 0, 255);
-                break;
-        }
-	}
-	else {
-		color = ColorValueWithName(string);
-	}
+        GetSVGColorFromHEXString(hexString, &color);
+    }
+    else {
+        color = ColorValueWithName(string);
+    }
 	
 	return color;
 }
