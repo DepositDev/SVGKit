@@ -49,7 +49,7 @@
 @class SVGDefsElement;
 
 @class SVGKImage; // needed for typedef below
-typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVGKParseResult* parseResult );
+typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage * _Null_unspecified loadedImage, SVGKParseResult * _Null_unspecified parseResult );
 
 @interface SVGKImage : NSObject // doesn't extend UIImage because Apple made UIImage immutable
 {
@@ -62,16 +62,16 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  
  NB you can get MUCH BETTER performance using the methods such as exportUIImageAntiAliased and exportNSDataAntiAliased
  */
-@property (weak, nonatomic, readonly) UIImage* UIImage;
+@property (weak, nonatomic, readonly) UIImage* _Null_unspecified UIImage;
 
-@property (nonatomic, strong, readonly) SVGKSource* source;
-@property (nonatomic, strong, readonly) SVGKParseResult* parseErrorsAndWarnings;
+@property (nonatomic, strong, readonly) SVGKSource* _Null_unspecified source;
+@property (nonatomic, strong, readonly) SVGKParseResult* _Null_unspecified parseErrorsAndWarnings;
 
-@property (nonatomic, strong, readonly) SVGDocument* DOMDocument;
-@property (nonatomic, strong, readonly) SVGSVGElement* DOMTree; // needs renaming + (possibly) replacing by DOMDocument
-@property (nonatomic, strong) CALayer* CALayerTree;
+@property (nonatomic, strong, readonly) SVGDocument* _Null_unspecified DOMDocument;
+@property (nonatomic, strong, readonly) SVGSVGElement* _Null_unspecified DOMTree; // needs renaming + (possibly) replacing by DOMDocument
+@property (nonatomic, strong) CALayer* _Null_unspecified CALayerTree;
 #if ENABLE_GLOBAL_IMAGE_CACHE_FOR_SVGKIMAGE_IMAGE_NAMED
-@property (nonatomic, strong, readonly) NSString* nameUsedToInstantiate;
+@property (nonatomic, strong, readonly) NSString* _Null_unspecified nameUsedToInstantiate;
 #endif
 
 #pragma mark - methods to quick load an SVG as an image
@@ -88,8 +88,8 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  - If that's missing, it finds the same file in the App's Bundle (i.e. the files stored at compile-time by Xcode, and shipped as the app)
  - Creates an SVGKSource so that you can later inspect exactly where it found the file
  */
-+ (SVGKImage *)imageNamed:(NSString *)name;
-+ (SVGKImage *)imageNamed:(NSString *)name inBundle:(NSBundle *)bundle;
++ (SVGKImage * _Null_unspecified)imageNamed:(NSString * _Null_unspecified)name;
++ (SVGKImage * _Null_unspecified)imageNamed:(NSString * _Null_unspecified)name inBundle:(NSBundle * _Null_unspecified)bundle;
 /**
  Almost identical to imageNamed: except that it performs the parse in a separate thread.
  
@@ -98,10 +98,10 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  UNLESS the image was already loaded, and a cached version can be returned - in which case,
  returns nil and immmediately calls the completion block
  */
-+(SVGKParser *) imageAsynchronouslyNamed:(NSString *)name onCompletion:(SVGKImageAsynchronousLoadingDelegate) blockCompleted;
-+ (SVGKImage *)imageWithContentsOfFile:(NSString *)path;
-+ (SVGKParser*) imageParserWithContentsOfFileAsynchronously:(NSString *)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
-+ (SVGKImage*) imageWithContentsOfFileAsynchronously:(NSString *)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
++(SVGKParser * _Null_unspecified) imageAsynchronouslyNamed:(NSString * _Null_unspecified)name onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified) blockCompleted;
++ (SVGKImage * _Null_unspecified)imageWithContentsOfFile:(NSString * _Null_unspecified)path;
++ (SVGKParser* _Null_unspecified) imageParserWithContentsOfFileAsynchronously:(NSString * _Null_unspecified)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
++ (SVGKImage* _Null_unspecified) imageWithContentsOfFileAsynchronously:(NSString * _Null_unspecified)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
 
 /**
  PREFERABLY: these are our only method, apart from the convenience "imageNamed"
@@ -115,9 +115,9 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  This is because SVG's cannot parse correctly without the metadata about where
  the file came from: e.g. they cannot process relative links, cross-references, etc.
  */
-+(SVGKImage*) imageWithData:(NSData *)newNSData; // if you have custom source's you want to use
-+ (SVGKParser*) imageParserWithDataAsynchronously:(NSData *)newNSData onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
-+ (SVGKImage*) imageWithDataAsynchronously:(NSData *)newNSData onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
++(SVGKImage* _Null_unspecified) imageWithData:(NSData * _Null_unspecified)newNSData; // if you have custom source's you want to use
++ (SVGKParser* _Null_unspecified) imageParserWithDataAsynchronously:(NSData * _Null_unspecified)newNSData onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
++ (SVGKImage* _Null_unspecified) imageWithDataAsynchronously:(NSData * _Null_unspecified)newNSData onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
 
 /**
  PREFERABLY: these are our only method, apart from the convenience "imageNamed"
@@ -130,15 +130,15 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  This is because SVG's cannot parse correctly without the metadata about where
  the file came from: e.g. they cannot process relative links, cross-references, etc.
  */
-+(SVGKImage*) imageWithSource:(SVGKSource *)newSource; // if you have custom source's you want to use
++(SVGKImage* _Null_unspecified) imageWithSource:(SVGKSource * _Null_unspecified)newSource; // if you have custom source's you want to use
 
 /**
  This is the asynchronous version of imageWithSource:
  */
-+(SVGKParser *) imageWithSource:(SVGKSource *)source onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
++(SVGKParser * _Null_unspecified) imageWithSource:(SVGKSource * _Null_unspecified)source onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
 
-- (id)initWithContentsOfFile:(NSString *)path;
-- (id)initWithData:(NSData *)data;
+- (id _Nullable)initWithContentsOfFile:(NSString * _Nonnull)path;
+- (id _Null_unspecified)initWithData:(NSData * _Null_unspecified)data;
 
 #pragma mark - UIImage methods cloned and re-implemented as SVG intelligent methods
 
@@ -216,9 +216,9 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
 
 // animated images. When set as UIImageView.image, animation will play in an infinite loop until removed. Drawing will render the first image
 #if TARGET_OS_IPHONE
-+ (UIImage *)animatedImageNamed:(NSString *)name duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); read sequnce of files with suffix starting at 0 or 1
-+ (UIImage *)animatedResizableImageNamed:(NSString *)name capInsets:(UIEdgeInsets)capInsets duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); // squence of files
-+ (UIImage *)animatedImageWithImages:(NSArray *)images duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
++ (UIImage * _Null_unspecified)animatedImageNamed:(NSString * _Null_unspecified)name duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); read sequnce of files with suffix starting at 0 or 1
++ (UIImage * _Null_unspecified)animatedResizableImageNamed:(NSString * _Null_unspecified)name capInsets:(UIEdgeInsets)capInsets duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); // squence of files
++ (UIImage * _Null_unspecified)animatedImageWithImages:(NSArray * _Null_unspecified)images duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
 #endif
 /**
  
@@ -229,12 +229,12 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  */
 #pragma mark ---------end of unsupported items
 
-+ (SVGKImage*)imageWithContentsOfURL:(NSURL *)url;
++ (SVGKImage* _Null_unspecified)imageWithContentsOfURL:(NSURL * _Null_unspecified)url;
 
 #pragma mark - core methods for interacting with an SVG image usefully (not from UIImage)
 
 /*! If you want to provide a custom SVGKSource */
-- (id)initWithSource:(SVGKSource *)source;
+- (id _Null_unspecified)initWithSource:(SVGKSource * _Null_unspecified)source;
 
 /*! If you already have a parsed SVG, and just want to upgrade it to an SVGKImage
  
@@ -243,7 +243,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  NB: this is frequently used if you have to add custom SVGKParserExtensions to parse an
  SVG which contains custom tags
  */
-- (id)initWithParsedSVG:(SVGKParseResult *)parseResult fromSource:(SVGKSource*) parseSource;
+- (id _Null_unspecified)initWithParsedSVG:(SVGKParseResult * _Null_unspecified)parseResult fromSource:(SVGKSource* _Null_unspecified) parseSource;
 
 
 /*! Creates a new instance each time you call it. This should ONLY be used if you specifically need to duplicate
@@ -253,7 +253,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  For all other use-cases, you should probably use the .CALayerTree property, which is automatically cached between
  calls - but MUST NOT be altered!
  */
--(CALayer *)newCALayerTree;
+-(CALayer * _Null_unspecified)newCALayerTree;
 
 /*! uses the current .CALayerTree property to find the layer, recursing down the tree (or creates a new
  CALayerTree on demand, and caches it)
@@ -261,7 +261,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  i.e. this takes advantage of the cached CALayerTree instance, and also correctly uses the SVG.viewBox info
  that was used when generating the original CALayerTree
  */
-- (CALayer *)layerWithIdentifier:(NSString *)identifier;
+- (CALayer * _Null_unspecified)layerWithIdentifier:(NSString * _Null_unspecified)identifier;
 
 /*! uses the current .CALayerTree property to find the layer, recursing down the tree (or creates a new
  CALayerTree on demand, and caches it)
@@ -269,7 +269,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  i.e. this takes advantage of the cached CALayerTree instance, and also correctly uses the SVG.viewBox info
  that was used when generating the original CALayerTree
  */
-- (CALayer *)layerWithIdentifier:(NSString *)identifier layer:(CALayer *)layer;
+- (CALayer * _Null_unspecified)layerWithIdentifier:(NSString * _Null_unspecified)identifier layer:(CALayer * _Null_unspecified)layer;
 
 /*! As for layerWithIdentifier: but works out the absolute position of the layer,
  effectively pulling it out of the layer-tree (the newly created layer has NO SUPERLAYER,
@@ -283,7 +283,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  docs that have many 'anonymous' nodes, you'll need to get actual pointer refs to the layers you need to work with, and use the
  alternate version of this method.
  */
--(CALayer*) newCopyPositionedAbsoluteLayerWithIdentifier:(NSString *)identifier;
+-(CALayer* _Null_unspecified) newCopyPositionedAbsoluteLayerWithIdentifier:(NSString * _Null_unspecified)identifier;
 
 /*! As for layerWithIdentifier: but works out the absolute position of the layer,
  effectively pulling it out of the layer-tree (the newly created layer has NO SUPERLAYER,
@@ -294,7 +294,7 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  Note that this ONLY clones the layer, does NOT include its sublayers. If you want to get a copy that includes
  the sublayers, use [self newCopyPositionedAbsoluteOfLayer:withSubLayers:TRUE]
  */
--(CALayer*) newCopyPositionedAbsoluteOfLayer:(CALayer *)originalLayer;
+-(CALayer* _Null_unspecified) newCopyPositionedAbsoluteOfLayer:(CALayer * _Null_unspecified)originalLayer;
 
 /**
  As for newCopyPositionedAbsoluteOfLayer:, but allows you to choose between 1 layer only (default)
@@ -303,10 +303,10 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage* loadedImage, SVG
  Only the root/parent layer will be positioned absolute - all the sublayers will still be relatively-positioned
  within their parents.
  */
--(CALayer*) newCopyPositionedAbsoluteOfLayer:(CALayer *)originalLayer withSubLayers:(BOOL) recursive;
+-(CALayer* _Null_unspecified) newCopyPositionedAbsoluteOfLayer:(CALayer * _Null_unspecified)originalLayer withSubLayers:(BOOL) recursive;
 
 /*! returns all the individual CALayer's in the full layer tree, indexed by the SVG identifier of the SVG node that created that layer */
-- (NSDictionary*) dictionaryOfLayers;
+- (NSDictionary* _Null_unspecified) dictionaryOfLayers;
 
 #pragma mark - Useful bonus methods, will probably move to a different class at some point
 

@@ -17,10 +17,12 @@
 static NSSet *_svgParserStylesSupportedNamespaces = nil;
 -(NSSet *) supportedNamespaces
 {
-    if( _svgParserStylesSupportedNamespaces == nil )
+    static dispatch_once_t pred;
+    dispatch_once(&pred, ^{
         _svgParserStylesSupportedNamespaces = [[NSSet alloc] initWithObjects:
-        @"http://www.w3.org/2000/svg",
-        nil];
+                                               @"http://www.w3.org/2000/svg",
+                                               nil];
+    });
 	return _svgParserStylesSupportedNamespaces;
 }
 
