@@ -585,8 +585,8 @@
 		fillColor = CGColorGetConstantColor(kCGColorBlack);
 #endif
 	}
-
-    return [svgElement replacedColorForColor:fillColor];
+    
+    return fillColor ? [svgElement replacedColorForColor:fillColor] : nil;
 }
 
 +(void) parsePreserveAspectRatioFor:(Element<SVGFitToViewBox>*) element
