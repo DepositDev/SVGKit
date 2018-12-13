@@ -584,8 +584,9 @@
 #else
 		fillColor = CGColorGetConstantColor(kCGColorBlack);
 #endif
-	}
-    
+        return fillColor;
+    }
+
     return fillColor ? [svgElement replacedColorForColor:fillColor] : nil;
 }
 
