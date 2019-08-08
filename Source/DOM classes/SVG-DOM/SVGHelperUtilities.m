@@ -627,7 +627,7 @@
             }
         } else {
             if (![defaultColor isEqualToString:@"none"]) {
-                paintColorSVGColor = SVGColorFromString([actualPaintColor UTF8String]);
+                paintColorSVGColor = SVGColorFromString([defaultColor UTF8String]);
             } else {
                 return NULL;
             }
@@ -648,10 +648,10 @@
             return NULL;
         }
 
-        return colorRef
+        return colorRef;
     }
     
-    return colorRef ? [svgElement replacedColorForColor:fillColor] : nil;
+    return colorRef ? [svgElement replacedColorForColor:colorRef] : nil;
 }
 
 +(void) parsePreserveAspectRatioFor:(Element<SVGFitToViewBox>*) element
