@@ -6,16 +6,13 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '5.0'
   s.tvos.deployment_target = '9.0'
   s.summary     = "Display and interact with SVG Images on iOS, using native rendering (CoreAnimation)."
-  s.homepage = 'https://github.com/SVGKit/SVGKit'
+  s.homepage = 'https://github.com/DepositDev/SVGKit'
   s.author   = { 'Steven Fusco'    => 'github@stevenfusco.com',
                  'adamgit'         => 'adam.m.s.martin@gmail.com',
                  'Kevin Stich'     => 'stich@50cubes.com',
                  'Joshua May'      => 'notjosh@gmail.com',
                  'Eric Man'        => 'meric.au@gmail.com',
-                 'Matt Rajca'      => 'matt.rajca@me.com',
-                 'Moritz Pfeiffer' => 'moritz.pfeiffer@alp-phone.ch' }
-  s.source   = { :git => 'https://github.com/SVGKit/SVGKit.git', :tag => s.version.to_s }
-                 'Moritz Pfeiffer' => 'moritz.pfeiffer@alp-phone.ch' }
+                 'Matt Rajca'      => 'matt.rajca@me.com', }
   s.source   = { :git => 'https://github.com/DepositDev/SVGKit.git', :tag => s.version.to_s }
 
   s.source_files = 'Source/*.{h,m}', 'Source/**/*.{h,m}'
@@ -26,7 +23,6 @@ Pod::Spec.new do |s|
   s.framework = 'QuartzCore', 'CoreText'
   s.dependency 'CocoaLumberjack', '~> 3.0'
   s.prefix_header_file = 'SVGKitLibrary/SVGKit-iOS/SVGKit-Prefix.pch'
-  s.module_map = 'SVGKitLibrary/SVGKit-iOS/SVGKit.modulemap'
   s.requires_arc = true
   s.xcconfig = {
     'CLANG_CXX_LANGUAGE_STANDARD' => 'gnu++11',
