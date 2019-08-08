@@ -1,5 +1,5 @@
 Pod::Spec.new do |s|
-  s.name        = 'SVGKit'
+  s.name        = 'SVGKitWithReplaceColors'
   s.version     = '2.1.1'
   s.license     = 'MIT'
   s.platform    = :ios, '5.0'
