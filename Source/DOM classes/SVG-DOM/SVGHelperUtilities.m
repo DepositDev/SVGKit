@@ -600,7 +600,11 @@
 +(CGColorRef)parsePaintColorForElement:(SVGElement *)svgElement paintColor:(NSString *)paintColor paintOpacity:(NSString *)paintOpacity defaultColor:(NSString *)defaultColor {
     CGColorRef colorRef = NULL;
     if (!paintColor) {
-        paintColor = @"none";
+        if (![defaultColor isEqualToString:@"none"]) {
+            return CGColorWithSVGColor(SVGColorFromString([defaultColor UTF8String]));
+        } else {
+            return NULL;
+        }
     }
     if ([paintColor isEqualToString:@"none"])
     {
