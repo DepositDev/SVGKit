@@ -24,6 +24,20 @@
 	</dict>
 	<key>Contributed</key>
 	<dict>
+		<key>M-to-S-to-T</key>
+		<dict>
+			<key>Source Local File</key>
+			<string>M-to-S-to-T.svg</string>
+			<key>License</key>
+			<string>Public Domain</string>
+		</dict>
+		<key>heart</key>
+		<dict>
+			<key>Source Local File</key>
+			<string>heart.svg</string>
+			<key>License</key>
+			<string>Public Domain</string>
+		</dict>
 		<key>CSS.svg</key>
 		<dict>
 			<key>Source Local File</key>
@@ -338,6 +352,15 @@
 			<string>imagetag-layer2-sun.svg</string>
 			<key>License</key>
 			<string>Public Domain, author: Adam Martin</string>
+		</dict>
+		<key>Mozilla_Firefox_logo_2013.svg</key>
+		<dict>
+			<key>Source Local File</key>
+			<string>Mozilla_Firefox_logo_2013.svg</string>
+			<key>License</key>
+			<string>Public Domain, author: Sean Martell for Mozilla</string>
+			<key>Source URL</key>
+			<string>https://upload.wikimedia.org/wikipedia/commons/7/76/Mozilla_Firefox_logo_2013.svg</string>
 		</dict>
 	</dict>
 	<key>SVG Spec</key>

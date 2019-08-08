@@ -1,5 +1,4 @@
 #import "VCGridOfImagesViewController.h"
-
 #import "SampleFileInfo.h"
 #import "DetailViewController.h"
 @interface VCGridOfImagesViewController ()
@@ -81,6 +80,13 @@
 		NSDictionary* allLicenses = [NSDictionary dictionaryWithContentsOfFile:path];
 		[self displayAllSectionsFromDictionary:allLicenses];
 	}
+}
+
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    
+    [self.collectionView selectItemAtIndexPath:nil animated:NO scrollPosition:UICollectionViewScrollPositionNone];
 }
 
 -(NSArray*) sectionAtIndex:(NSInteger) index
