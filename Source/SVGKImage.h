@@ -97,11 +97,11 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage * _Null_unspecifi
  UNLESS the image was already loaded, and a cached version can be returned - in which case,
  returns nil and immmediately calls the completion block
  */
-+(SVGKParser *) imageAsynchronouslyNamed:(NSString *)name onCompletion:(SVGKImageAsynchronousLoadingDelegate) blockCompleted;
-+ (SVGKImage *)imageWithContentsOfFile:(NSString *)path;
-+ (SVGKImage *)imageWithContentsOfURL:(NSURL *)url;
-+ (SVGKParser*) imageParserWithContentsOfFileAsynchronously:(NSString *)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
-+ (SVGKImage*) imageWithContentsOfFileAsynchronously:(NSString *)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate)blockCompleted;
++(SVGKParser * _Null_unspecified) imageAsynchronouslyNamed:(NSString * _Null_unspecified)name onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified) blockCompleted;
++ (SVGKImage * _Null_unspecified)imageWithContentsOfFile:(NSString * _Null_unspecified)path;
++ (SVGKImage * _Null_unspecified)imageWithContentsOfURL:(NSURL * _Null_unspecified)url;
++ (SVGKParser* _Null_unspecified) imageParserWithContentsOfFileAsynchronously:(NSString * _Null_unspecified)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
++ (SVGKImage* _Null_unspecified) imageWithContentsOfFileAsynchronously:(NSString * _Null_unspecified)aPath onCompletion:(SVGKImageAsynchronousLoadingDelegate _Null_unspecified)blockCompleted;
 
 /**
  PREFERABLY: these are our only method, apart from the convenience "imageNamed"
@@ -216,9 +216,9 @@ typedef void (^SVGKImageAsynchronousLoadingDelegate)(SVGKImage * _Null_unspecifi
 
 // animated images. When set as UIImageView.image, animation will play in an infinite loop until removed. Drawing will render the first image
 #if SVGKIT_UIKIT
-+ (UIImage *)animatedImageNamed:(NSString *)name duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); read sequnce of files with suffix starting at 0 or 1
-+ (UIImage *)animatedResizableImageNamed:(NSString *)name capInsets:(UIEdgeInsets)capInsets duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); // squence of files
-+ (UIImage *)animatedImageWithImages:(NSArray *)images duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
++ (UIImage * _Null_unspecified)animatedImageNamed:(NSString * _Null_unspecified)name duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); read sequnce of files with suffix starting at 0 or 1
++ (UIImage * _Null_unspecified)animatedResizableImageNamed:(NSString * _Null_unspecified)name capInsets:(UIEdgeInsets)capInsets duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0); // squence of files
++ (UIImage * _Null_unspecified)animatedImageWithImages:(NSArray * _Null_unspecified)images duration:(NSTimeInterval)duration ;//__OSX_AVAILABLE_STARTING(__MAC_NA,__IPHONE_5_0);
 #endif
 /**
  
