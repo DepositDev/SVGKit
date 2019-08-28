@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name        = 'SVGKitWithReplaceColors'
-  s.version     = '2.2.2'
+  s.version     = '2.2.3'
   s.license     = 'MIT'
   s.osx.deployment_target = '10.9'
   s.ios.deployment_target = '5.0'
