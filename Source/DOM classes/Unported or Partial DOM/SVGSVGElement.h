@@ -91,6 +91,7 @@
 @property (nonatomic, readonly) float currentScale;
 @property (nonatomic, strong, readonly) SVGPoint* currentTranslate;
 @property (nonatomic, strong, readwrite) SVGKSource *source;
+@property (nonatomic, strong, readwrite) NSMutableArray <UIColor *> *replaceColors;
 
 -(long) suspendRedraw:(long) maxWaitMilliseconds;
 -(void) unsuspendRedraw:(long) suspendHandleID;

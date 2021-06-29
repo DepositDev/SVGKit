@@ -493,10 +493,12 @@
 			strokeLayer.lineWidth = 1.0f; // default value from SVG spec
 		}
 	}
-	
-	NSString* actualFill = [svgElement cascadedValueForStylableProperty:@"fill"];
-	NSString* actualFillOpacity = [svgElement cascadedValueForStylableProperty:@"fill-opacity"];
-	
+
+    NSString *fill              = @"fill";
+    BOOL shouldIgnoreReplacing  = [svgElement.style getPropertyValue:fill] != nil;
+    NSString* actualFill        = [svgElement cascadedValueForStylableProperty:fill];
+    NSString* actualFillOpacity = [svgElement cascadedValueForStylableProperty:@"fill-opacity"];
+
 	if ( [actualFill hasPrefix:@"url"] )
 	{
         NSArray *fillArgs = [actualFill componentsSeparatedByCharactersInSet:NSCharacterSet.whitespaceCharacterSet];
@@ -521,9 +523,9 @@
             // no gradient, fallback
         }
 	}
-	else if( actualFill.length > 0 || actualFillOpacity.length > 0 )
-	{
-		fillLayer.fillColor = [self parseFillForElement:svgElement fromFill:actualFill andOpacity:actualFillOpacity];
+	else
+    {
+		fillLayer.fillColor = [self parseFillForElement:svgElement fromFill:actualFill andOpacity:actualFillOpacity shouldIgnoreReplacing:shouldIgnoreReplacing];
 	}
 	CGPathRelease(pathToPlaceInLayer);
 	
@@ -574,12 +576,12 @@
 {
 	NSString* actualFill = [svgElement cascadedValueForStylableProperty:@"fill"];
 	NSString* actualFillOpacity = [svgElement cascadedValueForStylableProperty:@"fill-opacity"];
-	return [self parseFillForElement:svgElement fromFill:actualFill andOpacity:actualFillOpacity];
+	return [self parseFillForElement:svgElement fromFill:actualFill andOpacity:actualFillOpacity shouldIgnoreReplacing:false];
 }
 
-+(CGColorRef) parseFillForElement:(SVGElement *)svgElement fromFill:(NSString *)actualFill andOpacity:(NSString *)actualFillOpacity
++(CGColorRef) parseFillForElement:(SVGElement *)svgElement fromFill:(NSString *)actualFill andOpacity:(NSString *)actualFillOpacity shouldIgnoreReplacing:(BOOL)ignoreReplacing
 {
-    return [self parsePaintColorForElement:svgElement paintColor:actualFill paintOpacity:actualFillOpacity defaultColor:@"black"];
+    return [self parsePaintColorForElement:svgElement paintColor:actualFill paintOpacity:actualFillOpacity defaultColor:@"black" shouldIgnoreReplacing:ignoreReplacing];
 }
 
 +(CGColorRef) parseStrokeForElement:(SVGElement *)svgElement
@@ -591,7 +593,7 @@
 
 +(CGColorRef) parseStrokeForElement:(SVGElement *)svgElement fromStroke:(NSString *)actualStroke andOpacity:(NSString *)actualStrokeOpacity
 {
-    return [self parsePaintColorForElement:svgElement paintColor:actualStroke paintOpacity:actualStrokeOpacity defaultColor:@"none"];
+    return [self parsePaintColorForElement:svgElement paintColor:actualStroke paintOpacity:actualStrokeOpacity defaultColor:@"none" shouldIgnoreReplacing:false];
 }
 
 /**
@@ -599,10 +601,14 @@
  `fill` or `stroke` allows paint color. This should actually be a <paint> interface.
  `fill` default color is `black`, while `stroke` default color is `none`
  */
-+(CGColorRef)parsePaintColorForElement:(SVGElement *)svgElement paintColor:(NSString *)paintColor paintOpacity:(NSString *)paintOpacity defaultColor:(NSString *)defaultColor {
++(CGColorRef)parsePaintColorForElement:(SVGElement *)svgElement paintColor:(NSString *)paintColor paintOpacity:(NSString *)paintOpacity defaultColor:(NSString *)defaultColor shouldIgnoreReplacing:(BOOL)ignoreReplacing {
     CGColorRef colorRef = NULL;
     if (!paintColor) {
-        paintColor = @"none";
+        if (![defaultColor isEqualToString:@"none"]) {
+            return CGColorWithSVGColor(SVGColorFromString([defaultColor UTF8String]));
+        } else {
+            return NULL;
+        }
     }
     if ([paintColor isEqualToString:@"none"])
     {
@@ -629,16 +635,18 @@
             }
         } else {
             if (![defaultColor isEqualToString:@"none"]) {
-                paintColorSVGColor = SVGColorFromString([actualPaintColor UTF8String]);
+                paintColorSVGColor = SVGColorFromString([defaultColor UTF8String]);
             } else {
                 return NULL;
             }
+            
+            return CGColorWithSVGColor(paintColorSVGColor);
         }
         
         if( actualPaintOpacity.length > 0 )
             paintColorSVGColor.a = (uint8_t) ([actualPaintOpacity floatValue] * 0xFF);
         
-        colorRef = CGColorWithSVGColor(paintColorSVGColor);
+        colorRef = CGColorWithSVGColor(paintColorSVGColor); 
     }
     else
     {
@@ -647,8 +655,14 @@
         } else {
             return NULL;
         }
+
+        return colorRef;
     }
-    
+
+    if (!ignoreReplacing && colorRef != nil) {
+        return [svgElement replacedColorForColor:colorRef];
+    }
+
     return colorRef;
 }
 

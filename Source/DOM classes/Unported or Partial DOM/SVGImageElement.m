@@ -106,7 +106,7 @@ CGImageRef SVGImageCGImage(UIImage *img)
     {
         SVGKImage *svg = nil;
         
-        if( effectiveSource == nil )
+        if( effectiveSource == nil && imageURL != nil )
             effectiveSource = [SVGKSourceURL sourceFromURL:imageURL];
         
         if( effectiveSource != nil )

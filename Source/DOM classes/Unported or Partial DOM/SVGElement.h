@@ -11,6 +11,7 @@
 #import "Node+Mutable.h"
 #import "SVGStylable.h"
 #import "SVGLength.h"
+#import "SVGUtils.h"
 
 #define DEBUG_SVG_ELEMENT_PARSING 0
 
@@ -60,5 +61,6 @@
 
 -(NSString*) cascadedValueForStylableProperty:(NSString*) stylableProperty;
 -(NSString*) cascadedValueForStylableProperty:(NSString*) stylableProperty inherit:(BOOL)inherit;
+-(CGColorRef) replacedColorForColor:(CGColorRef)color;
 
 @end

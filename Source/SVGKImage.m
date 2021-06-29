@@ -48,7 +48,6 @@
 
 @property (nonatomic, strong, readwrite) SVGDocument* DOMDocument;
 @property (nonatomic, strong, readwrite) SVGSVGElement* DOMTree; // needs renaming + (possibly) replacing by DOMDocument
-@property (nonatomic, strong, readwrite) CALayer* CALayerTree;
 #if ENABLE_GLOBAL_IMAGE_CACHE_FOR_SVGKIMAGE_IMAGE_NAMED
 @property (nonatomic, strong, readwrite) NSString* nameUsedToInstantiate;
 #endif

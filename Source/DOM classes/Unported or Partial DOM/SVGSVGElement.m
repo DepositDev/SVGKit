@@ -12,6 +12,7 @@
 @interface SVGSVGElement()
 #pragma mark - elements REQUIRED to implement the spec but not included in SVG Spec due to bugs in the spec writing!
 @property(nonatomic,readwrite) SVGRect requestedViewport;
+@property(nonatomic, strong, readwrite) NSMutableDictionary *cachedReplaceColors;
 @end
 
 @implementation SVGSVGElement
@@ -199,32 +200,38 @@
         self.requestedViewport = SVGRectUninitialized();
 	
 	
-	/**
-	 NB: this is VERY CONFUSING due to badly written SVG Spec, but: the viewport MUST NOT be set by the parser,
-	 it MUST ONLY be set by the "renderer" -- and the renderer MAY have decided to use a different viewport from
-	 the one that the SVG file *implies* (e.g. if the user scales the SVG, the viewport WILL BE DIFFERENT,
-	 by definition!
-	 
-	 ...However: the renderer will ALWAYS start with the default viewport values (that are calcualted by the parsing process)
-	 and it makes it much cleaner and safer to implement if we have the PARSER set the viewport initially
-	 
-	 (and the renderer will IMMEDIATELY overwrite them once the parsing is finished IFF IT NEEDS TO)
-	 */
-	self.viewport = self.requestedViewport; // renderer can/will change the .viewport, but .requestedViewport can only be set by the PARSER
-	
-	if( [[self getAttribute:@"viewBox"] length] > 0 )
-	{
-		NSArray* boxElements = [[self getAttribute:@"viewBox"] componentsSeparatedByString:@" "];
-		if ([boxElements count] < 2) {
-			/* count should be 4 -- maybe they're comma separated like (x,y,w,h) */
-			boxElements = [[self getAttribute:@"viewBox"] componentsSeparatedByString:@","];
-		}
-		_viewBox = SVGRectMake([[boxElements objectAtIndex:0] floatValue], [[boxElements objectAtIndex:1] floatValue], [[boxElements objectAtIndex:2] floatValue], [[boxElements objectAtIndex:3] floatValue]);
-	}
-	else
-	{
-		self.viewBox = SVGRectUninitialized(); // VERY IMPORTANT: we MUST make it clear this was never initialized, instead of saying its 0,0,0,0 !		
-	}
+    if( [[self getAttribute:@"viewBox"] length] > 0 )
+    {
+        NSArray* boxElements = [[self getAttribute:@"viewBox"] componentsSeparatedByString:@" "];
+        if ([boxElements count] < 2) {
+            /* count should be 4 -- maybe they're comma separated like (x,y,w,h) */
+            boxElements = [[self getAttribute:@"viewBox"] componentsSeparatedByString:@","];
+        }
+        _viewBox = SVGRectMake([[boxElements objectAtIndex:0] floatValue], [[boxElements objectAtIndex:1] floatValue], [[boxElements objectAtIndex:2] floatValue], [[boxElements objectAtIndex:3] floatValue]);
+    }
+    else
+    {
+        self.viewBox = SVGRectUninitialized(); // VERY IMPORTANT: we MUST make it clear this was never initialized, instead of saying its 0,0,0,0 !
+    }
+    
+    /**
+     NB: this is VERY CONFUSING due to badly written SVG Spec, but: the viewport MUST NOT be set by the parser,
+     it MUST ONLY be set by the "renderer" -- and the renderer MAY have decided to use a different viewport from
+     the one that the SVG file *implies* (e.g. if the user scales the SVG, the viewport WILL BE DIFFERENT,
+     by definition!
+     
+     ...However: the renderer will ALWAYS start with the default viewport values (that are calcualted by the parsing process)
+     and it makes it much cleaner and safer to implement if we have the PARSER set the viewport initially
+     
+     (and the renderer will IMMEDIATELY overwrite them once the parsing is finished IFF IT NEEDS TO)
+     
+     Renderer can/will change the .viewport, but .requestedViewport can only be set by the PARSER
+     */
+    if (SVGRectIsInitialized(self.requestedViewport)) {
+        self.viewport = self.requestedViewport;
+    } else {
+        self.viewport = self.viewBox;
+    }
 	
     [SVGHelperUtilities parsePreserveAspectRatioFor:self];
 
@@ -280,5 +287,34 @@
 	return  self.viewBox.height == 0 ? 0 : self.viewBox.width / self.viewBox.height;
 }
 
+#pragma mark - 
+
+-(void)setReplaceColors:(NSMutableArray<UIColor *> *)replaceColors
+{
+    _replaceColors = replaceColors;
+    self.cachedReplaceColors = nil;
+}
+
+-(CGColorRef)replacedColorForColor:(CGColorRef)color
+{
+    if (self.cachedReplaceColors == nil) {
+        self.cachedReplaceColors = [[NSMutableDictionary alloc] init];
+    }
+    
+    UIColor *uiColor = [UIColor colorWithCGColor:color];
+    UIColor *replaceColor = self.cachedReplaceColors[uiColor];
+    
+    if (replaceColor == nil) {
+        if (self.replaceColors.count > self.cachedReplaceColors.count) {
+            replaceColor = self.replaceColors[self.cachedReplaceColors.count];
+        } else {
+            [self.replaceColors addObject:uiColor];
+            replaceColor = uiColor;
+        }
+        self.cachedReplaceColors[uiColor] = replaceColor;
+    }
+    
+    return replaceColor.CGColor;
+}
 
 @end
