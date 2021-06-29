@@ -1,4 +1,4 @@
-framework module SVGKit {
+framework module SVGKitWithReplaceColors {
   umbrella header "SVGKit.h"
 
   export *
